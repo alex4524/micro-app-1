@@ -31,6 +31,7 @@ export function defineElement (tagName: string): void {
       super()
       // cloned node of umd container also trigger constructor, we should skip
       if (!this.querySelector('micro-app-head')) {
+        // 第一次创建时执行
         this.performWhenFirstCreated()
       }
     }
@@ -111,10 +112,15 @@ export function defineElement (tagName: string): void {
     }
 
     // Perform global initialization when the element count is 1
+    // 当元素count为1时执行全局初始化
     private performWhenFirstCreated (): void {
+      // 初始化
       if (elementInstanceMap.set(this, true).size === 1) {
+        // 补丁元素原型方法
         patchElementPrototypeMethods()
+        // 补丁 style标签样式
         rejectMicroAppStyle()
+        // 对unMount事件进行初始化 移除和添加 remove/addEventListener
         replaseUnmountOfNestedApp()
         listenUmountOfNestedApp()
       }

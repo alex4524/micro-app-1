@@ -6,6 +6,7 @@ import { globalLinks } from './source/links'
 import { globalScripts } from './source/scripts'
 import microApp from './micro_app'
 
+// 已加载的资源 不会重复加载 ，所以将其过滤掉
 function filterPreFetchTarget<T extends prefetchParam> (apps: T[]): T[] {
   const validApps: T[] = []
 
